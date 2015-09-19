@@ -16,6 +16,19 @@ class FileScaner():
                     ' _ |_| _|': 9
                     }
 
+    def user_story1(self, filename):
+        numbers = self.read_file(filename)
+        return numbers   
+ 
+
+    def user_story3(self, filename):
+        numbers = self.read_file(filename)
+        eligible_numbers = []  
+        for num in numbers:
+            eligible_numbers.append(self.find_elligible_number(num))
+        return eligible_numbers
+
+    
     def parse_lines(self, lines):
         number_list = {}
         linesbychars = ''
@@ -41,13 +54,6 @@ class FileScaner():
             else:
                 numbers.append('?')
         return numbers
-    
-    def user_story2(self, filename):
-        numbers = self.read_file(filename)
-        check_sum_output = []
-        for num in numbers:
-            check_sum_output.append(self.check_sum(num))
-        return check_sum_output
 
     def check_sum(self, numbers):
         reverse_number = numbers[::-1]
@@ -57,16 +63,8 @@ class FileScaner():
         if sum(products_num) % 11 == 0:
             return True
         return False
-
-    def user_story3(self, filename):
-        numbers = self.read_file(filename, que_mark=True)
-        eligible_numbers = []  
-        for num in numbers:
-            eligible_numbers.append(self.find_elligible_number(num))
-        return eligible_numbers
     
     def find_elligible_number(self, acc_number):
-
         acount_num = ''.join(str(x) for x in acc_number)
         if '?' in acc_number:
             return acount_num  +" "+ "ILL"
@@ -75,9 +73,7 @@ class FileScaner():
         else:
             return acount_num +" "+ "ERR"
 
-
-
-    def read_file(self, filename,que_mark=False):
+    def read_file(self, filename):
         """Returns all account numbers found in <filename>, as a list of tuples"""
         
         filepath = os.path.realpath(filename)
