@@ -1,8 +1,21 @@
 import os
-class FileScaner:
+class FileScaner():
     """ 
         FileScaner scan the file and return the account numbers
-    """    
+    """ 
+    NUMBER_SYMBOLS = {
+                    ' _ | ||_|': 0,
+                    '     |  |': 1,
+                    ' _  _||_ ': 2,
+                    ' _  _| _|': 3,
+                    '   |_|  |': 4,
+                    ' _ |_  _|': 5,
+                    ' _ |_ |_|': 6,
+                    ' _   |  |': 7,
+                    ' _ |_||_|': 8,
+                    ' _ |_| _|': 9
+                    }
+
     def parse_lines(self, lines):
         number_list = {}
         linesbychars = ''
@@ -19,26 +32,52 @@ class FileScaner:
 
 
     def get_number(self, number_list):
-        NUMBER_SYMBOLS = {
-                    ' _ | ||_|': 0,
-                    '     |  |': 1,
-                    ' _  _||_ ': 2,
-                    ' _  _| _|': 3,
-                    '   |_|  |': 4,
-                    ' _ |_  _|': 5,
-                    ' _ |_ |_|': 6,
-                    ' _   |  |': 7,
-                    ' _ |_||_|': 8,
-                    ' _ |_| _|': 9
-                    }
-
         numbers = []
         for key,num_symbol in number_list.items():
-            numbers.append(NUMBER_SYMBOLS.get(''.join(num_symbol)))
-        
-        return tuple(numbers)
-           
-    def read_file(self, filename):
+            num = self.NUMBER_SYMBOLS.get(''.join(num_symbol))
+            
+            if num != None:
+                numbers.append(num)
+            else:
+                numbers.append('?')
+        return numbers
+    
+    def user_story2(self, filename):
+        numbers = self.read_file(filename)
+        check_sum_output = []
+        for num in numbers:
+            check_sum_output.append(self.check_sum(num))
+        return check_sum_output
+
+    def check_sum(self, numbers):
+        reverse_number = numbers[::-1]
+        products_num = []
+        for i,v in enumerate(reverse_number):
+            products_num.append(int(i+1) * int(v))
+        if sum(products_num) % 11 == 0:
+            return True
+        return False
+
+    def user_story3(self, filename):
+        numbers = self.read_file(filename, que_mark=True)
+        eligible_numbers = []  
+        for num in numbers:
+            eligible_numbers.append(self.find_elligible_number(num))
+        return eligible_numbers
+    
+    def find_elligible_number(self, acc_number):
+
+        acount_num = ''.join(str(x) for x in acc_number)
+        if '?' in acc_number:
+            return acount_num  +" "+ "ILL"
+        elif self.check_sum(acc_number):
+            return acount_num
+        else:
+            return acount_num +" "+ "ERR"
+
+
+
+    def read_file(self, filename,que_mark=False):
         """Returns all account numbers found in <filename>, as a list of tuples"""
         
         filepath = os.path.realpath(filename)
