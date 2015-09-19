@@ -67,6 +67,15 @@ class TestCaseUserStories(unittest.TestCase):
         account_number = obj.check_sum(acc_number)
         self.assert_(account_number == True)
 
+    def test_read_file_story4(self):
+        """
+            Scan file and find wrong input character with ?
+        """
+        obj = FileScaner()
+        filename = 'userstroy4_input.txt'
+        account_numbers = obj.user_story3(filename)
+        print account_numbers
+        #self.assert_(account_numbers[0] == '000000051')
 
 if __name__ == '__main__':
     unittest.main()

@@ -19,13 +19,21 @@ class FileScaner():
     def user_story1(self, filename):
         numbers = self.read_file(filename)
         return numbers   
- 
 
     def user_story3(self, filename):
         numbers = self.read_file(filename)
         eligible_numbers = []  
         for num in numbers:
             eligible_numbers.append(self.find_elligible_number(num))
+        return eligible_numbers
+
+    def user_story4(self):
+        possile_values = {9:(8,),1:(7,),5:(6,9),6:(8,),0:(8,),8:(6,0)}
+        numbers = self.read_file(filename)
+        eligible_numbers = []  
+        for num in numbers:
+            eligible_value = self.find_elligible_number(num)
+            eligible_numbers.append(eligible_value)
         return eligible_numbers
 
     
